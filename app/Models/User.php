@@ -11,7 +11,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 use Filament\Models\Contracts\HasName;
 use Filament\Panel;
 
-class User extends Authenticatable implements JWTSubject,HasName
+class User extends Authenticatable implements JWTSubject,HasName,FilamentUser
 {
     use HasFactory, Notifiable;
     /**
@@ -139,5 +139,10 @@ public function userLoginHistories(): \Illuminate\Database\Eloquent\Relations\Ha
 // {
 //     return str_ends_with($this->email, '@bakeli.tech') && $this->hasVerifiedEmail();
 // }
+
+public function canAccessPanel(Panel $panel): bool
+{
+    return $this->isAdmin();
+}
 
 }

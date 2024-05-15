@@ -75,7 +75,10 @@ class ProduitResource extends Resource
     {
         return $table
             ->columns([
-                ImageColumn::make('images.image'),
+                ImageColumn::make('images.image')->circular()
+                ->stacked()
+                ->limit(2)
+                ->limitedRemainingText(),
                 TextColumn::make('name')->searchable(),
                 TextColumn::make('description')
                 ->limit(70)->label('Description'),
