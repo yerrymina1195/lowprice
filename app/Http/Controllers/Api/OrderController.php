@@ -196,6 +196,7 @@ class OrderController extends Controller
             }
             $validator = Validator::make($request->all(), [
                 'statut' => 'required|in:en cours,terminé,annulé,livré',
+                'ispaid'=>'boolean'
             ], [
                 'required' => 'Le champ :attribute est requis.',
                 'in' => "La valeur du champ :attribute doit être l'une des suivantes : :values.",

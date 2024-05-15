@@ -21,7 +21,7 @@ class OrderItem extends Model
     {
         $rules = [
             'order_id' => 'required',
-            'produit_id' => 'required|exists:livraisons,id',
+            'produit_id' => 'required|exists:produits,id',
             'subTotal' => 'required|integer|min:0',
             'quantity' => 'required|integer|min:0',
         ];

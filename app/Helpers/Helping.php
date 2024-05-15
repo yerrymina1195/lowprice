@@ -60,6 +60,35 @@ function addImagesToProduct($productId, Request $request)
         $product->images()->create(['image' => $filePath]);
     }
 }
+function addImagesToProductfilament($productId, $request)
+{
+
+    $product = Produit::findOrFail($productId);
+
+    //  dd($request);
+
+    // foreach ($request['images'] as $image) {
+    //     // dd($image);
+       
+    //     $product->images()->create(['image' => $image]);
+    // }
+    if (isset($request['image'])) {
+        foreach ($request['image'] as $image) {
+            $product->images()->create(['image' => $image]);
+        }
+    }
+}
+function addImagesToPackfilament($productId, $request)
+{
+
+    $packs = Pack::findOrFail($productId);
+
+    if (isset($request['image'])) {
+        foreach ($request['image'] as $image) {
+            $packs->images()->create(['image' => $image]);
+        }
+    }
+}
 function addImagesToPack($packId, Request $request)
 {
     $request->validate([

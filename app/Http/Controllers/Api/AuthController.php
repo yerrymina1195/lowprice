@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 
+use App\Models\UserLoginHistory;
 use App\Notifications\UserNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -35,6 +36,8 @@ class AuthController extends Controller
         if (!$token = auth()->attempt($validator->validated())) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
+
+        $this->recordLoginHistory($request);
 
         return $this->createNewToken($token);
     }
@@ -92,6 +95,15 @@ class AuthController extends Controller
 
     public function logout()
     {
+
+        $userLoginHistory = UserLoginHistory::where('user_id', auth()->id())
+        ->latest()
+        ->first();
+
+    if ($userLoginHistory) {
+        $userLoginHistory->update(['logout_at' => now()]);
+    }
+
         auth()->logout();
         return response()->json(['message' => 'User successfully signed out']);
     }
@@ -154,6 +166,20 @@ class AuthController extends Controller
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60,
             'user' => auth()->user()
+        ]);
+    }
+
+
+
+    protected function recordLoginHistory(Request $request)
+    {
+        $user = Auth::user();
+
+        UserLoginHistory::create([
+            'user_id' => $user->id,
+            'ip_address' => $request->ip(),
+            'user_agent' => $request->userAgent(),
+            'login_at'=>  now(),
         ]);
     }
 }

@@ -122,7 +122,7 @@ class AdminAuthController extends Controller
                 return response()->json($validator->errors()->toJson(), 400);
             }
             $data = $validator->validated();
-            $data['date_of_birth'] = Carbon::createFromFormat('d-m-Y', $request->input('date_of_birth'))->format('Y-m-d');
+            $data['date_of_birth'] = Carbon::createFromFormat('d/m/Y', $request->input('date_of_birth'))->format('Y-m-d');
 
             $user->update($data);
 

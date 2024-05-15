@@ -17,8 +17,8 @@ class Produit extends Model
         'prix',
         'statut',
         'quantity',
-        'category_id',
-        'subcategory_id',
+        'categorie_id',
+        'sub_categorie_id',
         'nouveaute'
 
     ];
@@ -33,8 +33,8 @@ class Produit extends Model
                 'max:50',
                 Rule::unique('produits')->ignore($produitId),
             ],
-            'category_id' => 'required|exists:categories,id',
-            'subcategory_id' => 'nullable|exists:sub_categories,id',
+            'categorie_id' => 'required|exists:categories,id',
+            'sub_categorie_id' => 'nullable|exists:sub_categories,id',
             'description'=> 'required|string|max:255',
             'prix'=> 'required|integer|min:0',
             'quantity' => 'required|integer|min:0',
@@ -58,9 +58,9 @@ class Produit extends Model
             'quantity.required' => 'le champ quantité est obligatoire.',
             'quantity.integer' => 'le champ quantité doit etre un nombre.',
             'quantity.min' => 'The quantity must be at least 0.',
-            'category_id.required' => 'l\'id du category est obligatoire.',
-            'category_id.exists' => 'ce categorie est introuvable.',
-            'subcategory_id.exists' => 'ce souscategorie est introuvable.',
+            'categorie_id.required' => 'l\'id du categorie est obligatoire.',
+            'categorie_id.exists' => 'ce categorie est introuvable.',
+            'sub_categorie_id.exists' => 'ce souscategorie est introuvable.',
         ];
         return Validator::make($data, $rules, $messages);
     }
@@ -68,13 +68,13 @@ class Produit extends Model
 
     public function categories()
     {
-        return $this->belongsTo(Categorie::class,'category_id');
+        return $this->belongsTo(Categorie::class,'categorie_id');
     }
 
 
     public function subcategories()
     {
-        return $this->belongsTo(SubCategorie::class,'category_id');
+        return $this->belongsTo(SubCategorie::class,'sub_categorie_id');
     }
 
     public function images()
@@ -100,6 +100,11 @@ class Produit extends Model
 public function items()
 {
     return $this->hasMany(OrderItem::class);
+}
+
+public function premiereImage()
+{
+    return $this->hasOne(ProduitImage::class)->orderBy('id', 'asc');
 }
 
 }

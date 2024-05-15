@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\PaymentCallbackController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,3 +26,4 @@ Route::get('/cancel', function () {
 // Route::get('/return_url', [PaymentCallbackController::class, 'handleCallback']);
 Route::get('/return_url', [PaymentCallbackController::class, 'handleReturn']);
 
+Route::get('/verify-email/{token}', [AuthController::class, 'verifyAccount']);  

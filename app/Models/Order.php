@@ -76,4 +76,16 @@ class Order extends Model
     {
         return $this->hasMany(OrderItem::class);
     }
+
+
+    public function calculerSommePrixPanier()
+    {
+        $sommePrixPanier = 0;
+
+        foreach ($this->items as $item) {
+            $sommePrixPanier += $item->produits->prix * $item->quantity;
+        }
+
+        return $sommePrixPanier;
+    }
 }

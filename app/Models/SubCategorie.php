@@ -13,12 +13,12 @@ class SubCategorie extends Model
 
     protected $fillable = [
         'name',
-        'category_id',
+        'categorie_id',
     ];
 
     public function categories()
     {
-        return $this->belongsTo(Categorie::class,'category_id');
+        return $this->belongsTo(Categorie::class,'categorie_id');
     }
 
 
@@ -31,15 +31,15 @@ class SubCategorie extends Model
                 'max:50',
                 Rule::unique('sub_categories')->ignore($subcategorId),
             ],
-            'category_id' => 'required|exists:categories,id',
+            'categorie_id' => 'required|exists:categories,id',
         ];
 
         $messages = [
             'name.required' => 'Le nom du categorie est obligatoire',
             'name.max' => 'Le nom du categorie ne doit pas dépasser :max caractères',
             'name.unique' => 'Le nom du categorie doit être unique',
-            'category_Id.required' => 'Choisissez une catégorie',
-            'category_Id.exists' => 'Cette catégorie n\'existe pas',
+            'categorie_Id.required' => 'Choisissez une catégorie',
+            'categorie_Id.exists' => 'Cette catégorie n\'existe pas',
         ];
 
         return Validator::make($data, $rules, $messages);

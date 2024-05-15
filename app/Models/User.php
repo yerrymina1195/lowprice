@@ -1,13 +1,17 @@
 <?php
 namespace App\Models;
+
+use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use Filament\Models\Contracts\HasName;
+use Filament\Panel;
 
-class User extends Authenticatable implements JWTSubject
+class User extends Authenticatable implements JWTSubject,HasName
 {
     use HasFactory, Notifiable;
     /**
@@ -118,5 +122,22 @@ public function orders()
 {
     return $this->hasMany(Order::class);
 }
+
+
+public function getFilamentName(): string
+{
+    return "{$this->first_name} {$this->last_name}";
+}
+
+
+public function userLoginHistories(): \Illuminate\Database\Eloquent\Relations\HasMany
+{
+    return $this->hasMany(\App\Models\UserLoginHistory::class, 'user_id');
+}
+
+// public function canAccessPanel(Panel $panel): bool
+// {
+//     return str_ends_with($this->email, '@bakeli.tech') && $this->hasVerifiedEmail();
+// }
 
 }
