@@ -18,6 +18,73 @@ class OrderController extends Controller
 
 
 
+/**
+ * @OA\Post(
+ *     path="/api/order/store",
+ *     summary="Create a new order",
+ *     tags={"Orders"},
+ *     security={{"bearerAuth":{}}},
+ *     @OA\RequestBody(
+ *         required=true,
+ *         description="Order object to be created",
+ *         @OA\JsonContent(
+ *             required={"paymentmethode_id", "methodelivraison_id", "addresse_id", "prixTotal", "items"},
+ *             @OA\Property(property="paymentmethode_id", type="integer", example="3"),
+ *             @OA\Property(property="methodelivraison_id", type="integer", example="2"),
+ *             @OA\Property(property="addresse_id", type="integer", example="1"),
+ *             @OA\Property(property="prixTotal", type="number", example="250000"),
+ *             @OA\Property(
+ *                 property="items",
+ *                 type="array",
+ *                 @OA\Items(
+ *                     required={"produit_id", "quantity", "subTotal"},
+ *                     @OA\Property(property="produit_id", type="integer", example="28"),
+ *                     @OA\Property(property="quantity", type="integer", example="1"),
+ *                     @OA\Property(property="subTotal", type="number", example="252000")
+ *                 )
+ *             )
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Order created successfully",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="message", type="string", example="Order created successfully"),
+ *             @OA\Property(property="success", type="boolean", example=true),
+ *             @OA\Property(property="data", type="object",
+ *                 @OA\Property(property="id", type="integer"),
+ *                 @OA\Property(property="paymentmethode_id", type="integer"),
+ *                 @OA\Property(property="methodelivraison_id", type="integer"),
+ *                 @OA\Property(property="addresse_id", type="integer"),
+ *                 @OA\Property(property="prixTotal", type="number"),
+ *                 @OA\Property(
+ *                     property="items",
+ *                     type="array",
+ *                     @OA\Items(
+ *                         @OA\Property(property="produit_id", type="integer"),
+ *                         @OA\Property(property="quantity", type="integer"),
+ *                         @OA\Property(property="subTotal", type="number")
+ *                     )
+ *                 ),
+ *             )
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=422,
+ *         description="Validation error",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="errors", type="object")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=500,
+ *         description="Server error",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="error", type="string")
+ *         )
+ *     )
+ * )
+ */
 
 
     public function store(Request $request)
@@ -94,7 +161,111 @@ class OrderController extends Controller
     }
 
 
-
+    /**
+     * @OA\Get(
+     *     path="/api/order/",
+     *     summary="Search order and display ",
+     *     tags={"Orders"},
+     *     @OA\Parameter(
+     *         name="per_page",
+     *         in="query",
+     *         description="Number of items per page",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="integer",
+     *             format="int32",
+     *             example=2
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="search",
+     *         in="query",
+     *         description="Search keyword",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="sort_field",
+     *         in="query",
+     *         description="Field to sort by",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="string",
+     *             enum={"created_at", "name", "prix"}
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="sort_direction",
+     *         in="query",
+     *         description="Sort direction",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="string",
+     *             enum={"asc", "desc"}
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="keyword",
+     *         in="query",
+     *         description="Keyword to search in product name",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="search_statut",
+     *         in="query",
+     *         description="statut order",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="search_orderidentify",
+     *         in="query",
+     *         description="oreder identify",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="List of products",
+   *         @OA\JsonContent(
+ *             @OA\Property(property="message", type="string", example="Order created successfully"),
+ *             @OA\Property(property="success", type="boolean", example=true),
+ *             @OA\Property(property="data", type="object",
+ *                 @OA\Property(property="id", type="integer"),
+ *                 @OA\Property(property="paymentmethode_id", type="integer"),
+ *                 @OA\Property(property="methodelivraison_id", type="integer"),
+ *                 @OA\Property(property="addresse_id", type="integer"),
+ *                 @OA\Property(property="prixTotal", type="number"),
+ *                 @OA\Property(
+ *                     property="items",
+ *                     type="array",
+ *                     @OA\Items(
+ *                         @OA\Property(property="produit_id", type="integer"),
+ *                         @OA\Property(property="quantity", type="integer"),
+ *                         @OA\Property(property="subTotal", type="number")
+ *                     )
+ *                 ),
+ *             )
+ *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Server error",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="error", type="string")
+     *         )
+     *     )
+     * )
+     */
 
 
     public function index()
@@ -125,6 +296,67 @@ class OrderController extends Controller
             'data' => $data,
         ], 200);
     }
+
+
+    /**
+ * @OA\Get(
+ *     path="/api/order/mescommandes",
+ *     summary="Get orders of the authenticated user",
+ *     tags={"Orders"},
+ *     security={{"bearerAuth":{}}},
+ *     @OA\Parameter(
+ *         name="per_page",
+ *         in="query",
+ *         description="Number of items per page",
+ *         required=false,
+ *         @OA\Schema(
+ *             type="integer"
+ *         )
+ *     ),
+ *     @OA\Parameter(
+ *         name="sort_field",
+ *         in="query",
+ *         description="Field to sort by",
+ *         required=false,
+ *         @OA\Schema(
+ *             type="string"
+ *         )
+ *     ),
+ *     @OA\Parameter(
+ *         name="sort_direction",
+ *         in="query",
+ *         description="Sort direction (asc or desc)",
+ *         required=false,
+ *         @OA\Schema(
+ *             type="string",
+ *             enum={"asc", "desc"}
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="List of orders of the user",
+ *         @OA\JsonContent(
+ *             type="array",
+ *             @OA\Items(
+ *                 @OA\Property(property="id", type="integer"),
+ *                 @OA\Property(property="prixTotal", type="string"),
+ *                 @OA\Property(property="orderidentify", type="string"),
+ *                 @OA\Property(property="first_product_image", type="string"),
+ *                 @OA\Property(property="statut", type="string"),
+ *                 @OA\Property(property="created_at", type="string"),
+ *                 @OA\Property(property="updated_at", type="string"),
+ *             )
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=401,
+ *         description="Unauthorized",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="error", type="string", example="Unauthorized")
+ *         )
+ *     )
+ * )
+ */
 
 
     public function getUserOrders()
@@ -185,6 +417,68 @@ class OrderController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+
+    /**
+ * @OA\Put(
+ *     path="/api/order/updatestatut/{id}",
+ *     summary="Update the status of an order",
+ *     tags={"Orders"},
+ *     security={{"bearerAuth":{}}},
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         description="ID of the order",
+ *         required=true,
+ *         @OA\Schema(
+ *             type="integer"
+ *         )
+ *     ),
+ *     @OA\RequestBody(
+ *         required=true,
+ *         description="New status of the order",
+ *         @OA\JsonContent(
+ *             required={"statut"},
+ *             @OA\Property(property="statut", type="string", example="en cours", enum={"en cours", "terminé", "annulé", "livré"}),
+ *             @OA\Property(property="ispaid", type="boolean", example=true)
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Order status updated successfully",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="message", type="string", example="Modification réussie"),
+ *             @OA\Property(property="data", type="object",
+ *                 @OA\Property(property="id", type="integer"),
+ *                 @OA\Property(property="statut", type="string"),
+ *                 @OA\Property(property="ispaid", type="boolean"),
+ *                 @OA\Property(property="created_at", type="string"),
+ *                 @OA\Property(property="updated_at", type="string")
+ *             )
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=404,
+ *         description="Order not found",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="message", type="string", example="Order not found")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=422,
+ *         description="Validation error",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="errors", type="object")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=500,
+ *         description="Server error",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="error", type="string")
+ *         )
+ *     )
+ * )
+ */
 
     public function updateStatut(Request $request, $id)
     {

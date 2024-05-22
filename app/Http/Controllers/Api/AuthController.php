@@ -25,6 +25,42 @@ class AuthController extends Controller
         $this->middleware('auth:api', ['except' => ['login', 'register', 'verifyAccount']]);
     }
 
+    /**
+ * @OA\Post(
+ *     path="/api/auth/login",
+ *     summary="Login User",
+ *     tags={"Authentication user"},
+ *     @OA\RequestBody(
+ *         required=true,
+ *         description="User credentials",
+ *         @OA\JsonContent(
+ *             required={"email", "password"},
+ *             @OA\Property(property="email", type="string", format="email", example="test@example.com"),
+ *             @OA\Property(property="password", type="string", example="password")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Login successful",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="access_token", type="string"),
+ *             @OA\Property(property="token_type", type="string", example="bearer"),
+ *             @OA\Property(property="expires_in", type="integer", description="Token expiration time in seconds"),
+ *             @OA\Property(property="user", type="object", ref="#/components/schemas/User"),
+ *             @OA\Property(property="message", type="string", example="Login successful")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=401,
+ *         description="Unauthorized",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="error", type="string", example="Unauthorized")
+ *         )
+ *     ),
+ *     security={}
+ * )
+ */
+
     public function login(Request $request)
     {
         $validator = $this->validateLogin($request->all());
@@ -41,6 +77,43 @@ class AuthController extends Controller
 
         return $this->createNewToken($token);
     }
+
+    /**
+ * @OA\Post(
+ *     path="/api/auth/register",
+ *     summary="Register a new user",
+ *     tags={"Authentication user"},
+ *     @OA\RequestBody(
+ *         required=true,
+ *         description="User details",
+ *         @OA\JsonContent(
+ *             required={"first_name", "last_name", "email", "password", "date_of_birth", "telephone"},
+ *             @OA\Property(property="first_name", type="string", example="test"),
+ *             @OA\Property(property="last_name", type="string", example="test"),
+ *             @OA\Property(property="email", type="string", format="email", example="test@example.com"),
+ *             @OA\Property(property="password", type="string", example="password"),
+ *             @OA\Property(property="date_of_birth", type="string", format="date", example="1990-01-01"),
+ *             @OA\Property(property="telephone", type="string", example="123456789")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=201,
+ *         description="User registered successfully",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="user", type="object", ref="#/components/schemas/User"),
+ *             @OA\Property(property="message", type="string", example="User successfully registered. Email verification sent.")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=422,
+ *         description="Validation error",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="message", type="string", example="The given data was invalid."),
+ *             @OA\Property(property="errors", type="object")
+ *         )
+ *     )
+ * )
+ */
 
     public function register(Request $request)
     {
@@ -113,6 +186,34 @@ class AuthController extends Controller
         return $this->createNewToken(auth()->refresh());
     }
 
+ /**
+ * @OA\Get(
+ *     path="/api/auth/user-profile",
+ *     summary="Get user profile",
+ *     tags={"Authentication user"},
+ *     security={{"bearerAuth":{}}},
+ *     @OA\Response(
+ *         response=200,
+ *         description="User profile retrieved successfully",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="id", type="integer", example="1"),
+ *             @OA\Property(property="first_name", type="string", example="test"),
+ *             @OA\Property(property="last_name", type="string", example="test"),
+ *             @OA\Property(property="email", type="string", format="email", example="test@example.com"),
+ *             @OA\Property(property="telephone", type="string", example="123456789"),
+ *             @OA\Property(property="date_of_birth", type="string", format="date", example="1990-01-01")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=401,
+ *         description="Unauthorized",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="error", type="string", example="Unauthorized")
+ *         )
+ *     )
+ * )
+ */
+
     public function userProfile()
     {
      try {
@@ -125,6 +226,51 @@ class AuthController extends Controller
      }
 
     }
+
+    /**
+ * @OA\Put(
+ *     path="/api/auth/updateUserProfile",
+ *     summary="Update user profile",
+ *     tags={"Authentication user"},
+ *     security={{"bearerAuth":{}}},
+ *     @OA\RequestBody(
+ *         required=true,
+ *         description="User profile details",
+ *         @OA\JsonContent(
+ *             required={"first_name", "last_name", "email", "telephone", "date_of_birth"},
+ *             @OA\Property(property="first_name", type="string", example="test"),
+ *             @OA\Property(property="last_name", type="string", example="test"),
+ *             @OA\Property(property="email", type="string", format="email", example="test@example.com"),
+ *             @OA\Property(property="telephone", type="string", example="123456789"),
+ *             @OA\Property(property="date_of_birth", type="string", format="date", example="1990-01-01")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Profile updated successfully",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="message", type="string", example="modification reussite"),
+ *             @OA\Property(property="data", type="object", ref="#/components/schemas/User")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=400,
+ *         description="Bad request",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="message", type="string", example="The given data was invalid.")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=401,
+ *         description="Unauthorized",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="error", type="string", example="Unauthorized")
+ *         )
+ *     )
+ * )
+ */
+
+ 
 
     public function updateUserProfile(Request $request)
     {

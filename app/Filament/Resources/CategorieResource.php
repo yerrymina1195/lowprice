@@ -32,7 +32,7 @@ class CategorieResource extends Resource
             ->schema([
                 Section::make()->schema([
 
-                    TextInput::make('name')->required(),
+                    TextInput::make('name')->unique(ignoreRecord: true)->required(),
                     FileUpload::make('image')
                         ->directory('Categories')
                         ->image()->preserveFilenames()->previewable(),

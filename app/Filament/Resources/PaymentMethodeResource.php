@@ -35,7 +35,7 @@ class PaymentMethodeResource extends Resource
             ->schema([
                 Section::make()->schema([
 
-                    TextInput::make('name')->required(),
+                    TextInput::make('name')->unique(ignoreRecord: true)->required(),
                     TextInput::make('type')->required(),
                     FileUpload::make('image')
                         ->directory('payments')

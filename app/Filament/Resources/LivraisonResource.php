@@ -35,7 +35,7 @@ class LivraisonResource extends Resource
                 
                 Section::make()->schema([
 
-                    TextInput::make('name')->required(),
+                    TextInput::make('name')->unique(ignoreRecord: true)->required(),
                     TextInput::make('type')->required(),
                 TextInput::make('price')->integer()->required(),
                 Toggle::make('ispublished')

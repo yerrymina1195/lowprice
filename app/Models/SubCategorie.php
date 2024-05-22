@@ -7,6 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
+
+/**
+ * @OA\Schema(
+ *     schema="Subcategory",
+ *     title="Subcategory",
+ *     required={"id", "name", "categorie_id"},
+ *     @OA\Property(property="id", type="integer", example="2"),
+ *     @OA\Property(property="name", type="string", example="Automobile"),
+ *     @OA\Property(property="category_id", type="integer", example="5")
+ * )
+ */
 class SubCategorie extends Model
 {
     use HasFactory;

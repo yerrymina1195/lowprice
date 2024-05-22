@@ -31,7 +31,7 @@ class SubCategoryResource extends Resource
             ->schema([
                 Section::make()->schema([
 
-                    TextInput::make('name')->required(),
+                    TextInput::make('name')->unique(ignoreRecord: true)->required(),
                     Select::make('categorie_id')->relationship(name: 'categories', titleAttribute: 'name')->native(false)->required(),
 
                 ])->columns(2),

@@ -39,10 +39,10 @@ class ProduitResource extends Resource
         return $form
         ->schema([
             Section::make()->schema([
-                TextInput::make('name')
+                TextInput::make('name')->unique(ignoreRecord: true)
                     ->required()->minLength(3)->maxLength(250),
                     Select::make('categorie_id')->relationship(name: 'categories', titleAttribute: 'name')->native(false)->preload()->live()->required(),
-                    Select::make('sub_categorie_id')->options(fn (Get $get): array => SubCategorie::where('categorie_id', $get('categorie_id'))->pluck('name', 'id')->toArray())->preload(),
+                    Select::make('sub_categorie_id')->native(false)->options(fn (Get $get): array => SubCategorie::where('categorie_id', $get('categorie_id'))->pluck('name', 'id')->toArray())->preload(),
                     TextInput::make('prix')->integer()
                     ->required(),
                     TextInput::make('quantity')->integer()

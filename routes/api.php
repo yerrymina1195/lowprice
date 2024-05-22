@@ -91,6 +91,7 @@ Route::group(['prefix' => 'subcategory'], function () {
 });
 Route::group(['prefix' => 'product'], function () {
     Route::controller(ProduitController::class)->group(function () {
+        Route::get('topProducts', 'topProducts');
         Route::get('/', 'searchProducts');
         Route::get('show/{id}', 'show');
         Route::middleware(['auth','role:Admin'])->group(function () {
@@ -98,7 +99,6 @@ Route::group(['prefix' => 'product'], function () {
             Route::put('update/{id}', 'update');
             Route::delete('delete/{id}', 'delete');
             // Route::get('searchProducts', 'searchProducts');
-            Route::get('topProducts', 'topProducts');
         });
     });
 });

@@ -7,6 +7,28 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
+/**
+ * @OA\Schema(
+ *     schema="Product",
+ *     title="Product",
+ *     required={"id", "name", "description", "statut", "prix", "quantity", "categorie_id", "nouveaute", "created_at", "updated_at", "reviews", "images"},
+ *     @OA\Property(property="id", type="integer", example="29"),
+ *     @OA\Property(property="name", type="string", example="velo mini"),
+ *     @OA\Property(property="description", type="string", example="velo"),
+ *     @OA\Property(property="statut", type="integer", example="1"),
+ *     @OA\Property(property="prix", type="integer", example="100000"),
+ *     @OA\Property(property="quantity", type="integer", example="1"),
+ *     @OA\Property(property="categorie_id", type="integer", example="5"),
+ *     @OA\Property(property="sub_categorie_id", type="integer", nullable=true),
+ *     @OA\Property(property="nouveaute", type="integer", example="1"),
+ *     @OA\Property(property="created_at", type="string", format="date-time", example="2024-05-16T14:36:34.000000Z"),
+ *     @OA\Property(property="updated_at", type="string", format="date-time", example="2024-05-16T14:36:34.000000Z"),
+ *     @OA\Property(property="images", type="array", @OA\Items(ref="#/components/schemas/ProduiImage")),
+ *     @OA\Property(property="reviews", type="array", @OA\Items(ref="#/components/schemas/Review")),
+ * )
+ */
+
+
 class Produit extends Model
 {
     use HasFactory;

@@ -42,7 +42,7 @@ class PackResource extends Resource
         return $form
             ->schema([
                 Section::make()->schema([
-                    TextInput::make('name')
+                    TextInput::make('name')->unique(ignoreRecord: true)
                         ->required()->minLength(3)->maxLength(250),
                         TextInput::make('prix')->integer()
                         ->required(),

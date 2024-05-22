@@ -17,12 +17,30 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
+    /**
+ * @OA\Info(
+ *     version="1.0",
+ *     title="LowPriceClone",
+ *     description="List of endpoints",
+ *     @OA\Contact(name="Swagger API Team")
+ * )
+ * @OA\Server(
+ *     url="http://127.0.0.1:8000",
+ *     description="API server"
+ * )
+ * @OA\SecurityScheme(
+ * type="http",
+ * scheme="bearer",
+ * securityScheme="bearerAuth",
+ * description="JWT token should be provided in the 'Authorization' header. Example: Bearer {token}")
+ */
 class AdminAuthController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth:api', ['except' => ['login', 'register', 'verifyAccount']]);
     }
+
 
     public function login(Request $request)
     {

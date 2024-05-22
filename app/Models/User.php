@@ -11,6 +11,22 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 use Filament\Models\Contracts\HasName;
 use Filament\Panel;
 
+
+
+/**
+ * @OA\Schema(
+ *     schema="User",
+ *     title="User",
+ *     required={"id", "first_name", "last_name", "email", "date_of_birth", "telephone", "role"},
+ *     @OA\Property(property="id", type="integer", format="int64", example="3"),
+ *     @OA\Property(property="first_name", type="string", example="testeur"),
+ *     @OA\Property(property="last_name", type="string", example="sn"),
+ *     @OA\Property(property="email", type="string", format="email", example="makhandiakhotest@gmail.com"),
+ *     @OA\Property(property="email_verified_at", type="string", format="date-time", example=null),
+ *     @OA\Property(property="date_of_birth", type="string", format="date", example="1995-11-01"),
+ *     @OA\Property(property="telephone", type="string", example="784657023"),
+ * )
+ */
 class User extends Authenticatable implements JWTSubject,HasName,FilamentUser
 {
     use HasFactory, Notifiable;

@@ -6,6 +6,21 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
 
+/**
+ * @OA\Schema(
+ *     schema="Review",
+ *     title="Review",
+ *     required={"id", "user_id", "produit_id", "rating", "comment", "created_at", "updated_at"},
+ *     @OA\Property(property="id", type="integer", format="int64", example="1"),
+ *     @OA\Property(property="user_id", type="integer", example="1"),
+ *     @OA\Property(property="produit_id", type="integer", example="29"),
+ *     @OA\Property(property="rating", type="integer", example="4"),
+ *     @OA\Property(property="comment", type="string", example="bvdjbjfbjkdbjkdbjfdbvjdbfd"),
+ *     @OA\Property(property="created_at", type="string", format="date-time", example="2024-05-16T15:23:17.000000Z"),
+ *     @OA\Property(property="updated_at", type="string", format="date-time", example="2024-05-16T15:23:17.000000Z")
+ * )
+ */
+
 class Review extends Model
 {
     use HasFactory;
